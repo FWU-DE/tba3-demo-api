@@ -1,4 +1,5 @@
 import { DemoDataSet } from '../types/demo-data';
+import { parseKompetenztestExcel } from '../utils/excel-parser';
 
 export const sampleDataSet: DemoDataSet = {
   id: 'sample-dataset-1',
@@ -463,15 +464,15 @@ export const vera3MathDataSet: DemoDataSet = {
       students: [
         {
           id: 'student-vera3-1',
-          name: 'Schüler 1',
+          name: 'Schüler 1 (BISTA: 488)',
           results: [
             {
               competence_id: 'comp-numbers-operations',
               task_id: 'MV2310001',
               points_achieved: 1,
               points_possible: 1,
-              level: 4,
-              solution_approach: 'Systematisches Vorgehen'
+              level: 3,
+              solution_approach: 'Zählen und Rechnen'
             },
             {
               competence_id: 'comp-numbers-operations',
@@ -479,7 +480,7 @@ export const vera3MathDataSet: DemoDataSet = {
               points_achieved: 0,
               points_possible: 1,
               level: 2,
-              solution_approach: 'Rechenfehler'
+              solution_approach: 'Fehlerhaft'
             },
             {
               competence_id: 'comp-space-form',
@@ -487,21 +488,21 @@ export const vera3MathDataSet: DemoDataSet = {
               points_achieved: 1,
               points_possible: 2,
               level: 3,
-              solution_approach: 'Teilweise richtig'
+              solution_approach: 'Grundverständnis'
             },
             {
               competence_id: 'comp-data-chance',
               task_id: 'MV2325101',
               points_achieved: 2,
               points_possible: 2,
-              level: 5,
-              solution_approach: 'Vollständig richtig'
+              level: 4,
+              solution_approach: 'Systematische Analyse'
             }
           ]
         },
         {
           id: 'student-vera3-2',
-          name: 'Schüler 2',
+          name: 'Schüler 2 (BISTA: 546)',
           results: [
             {
               competence_id: 'comp-numbers-operations',
@@ -509,7 +510,7 @@ export const vera3MathDataSet: DemoDataSet = {
               points_achieved: 1,
               points_possible: 1,
               level: 4,
-              solution_approach: 'Systematisches Vorgehen'
+              solution_approach: 'Sicheres Rechnen'
             },
             {
               competence_id: 'comp-numbers-operations',
@@ -532,8 +533,236 @@ export const vera3MathDataSet: DemoDataSet = {
               task_id: 'MV2325101',
               points_achieved: 0,
               points_possible: 2,
+              level: 2,
+              solution_approach: 'Unsicher'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-3',
+          name: 'Schüler 3 (BISTA: Nicht teilgenommen)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 0,
+              points_possible: 1,
               level: 1,
-              solution_approach: 'Keine Bearbeitung'
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-4',
+          name: 'Schüler 4 (BISTA: 400)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Grundfertigkeiten'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 3,
+              solution_approach: 'Anwendung bekannter Verfahren'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 2,
+              points_possible: 2,
+              level: 4,
+              solution_approach: 'Sicheres geometrisches Verständnis'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 1,
+              points_possible: 2,
+              level: 3,
+              solution_approach: 'Grundlegende Dateninterpretation'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-5',
+          name: 'Schüler 5 (BISTA: Nicht teilgenommen)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 1,
+              solution_approach: 'Nicht bearbeitet'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-6',
+          name: 'Schüler 6 (BISTA: 562)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 3,
+              solution_approach: 'Teilweise sicher'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 4,
+              solution_approach: 'Sichere Anwendung'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 1,
+              points_possible: 2,
+              level: 4,
+              solution_approach: 'Gutes räumliches Verständnis'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 2,
+              solution_approach: 'Unsicherheiten'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-7',
+          name: 'Schüler 7 (BISTA: 619)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 5,
+              solution_approach: 'Exzellente Fertigkeiten'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 5,
+              solution_approach: 'Sichere Beherrschung'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 1,
+              points_possible: 2,
+              level: 4,
+              solution_approach: 'Sehr gutes Verständnis'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 1,
+              points_possible: 2,
+              level: 4,
+              solution_approach: 'Sichere Datenanalyse'
+            }
+          ]
+        },
+        {
+          id: 'student-vera3-8',
+          name: 'Schüler 8 (BISTA: 351)',
+          results: [
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV2310001',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Grundfertigkeiten vorhanden'
+            },
+            {
+              competence_id: 'comp-numbers-operations',
+              task_id: 'MV1508401',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Schwierigkeiten bei Anwendung'
+            },
+            {
+              competence_id: 'comp-space-form',
+              task_id: 'MV2162701',
+              points_achieved: 1,
+              points_possible: 2,
+              level: 3,
+              solution_approach: 'Grundverständnis entwickelt'
+            },
+            {
+              competence_id: 'comp-data-chance',
+              task_id: 'MV2325101',
+              points_achieved: 0,
+              points_possible: 2,
+              level: 2,
+              solution_approach: 'Benötigt Unterstützung'
             }
           ]
         }
@@ -607,7 +836,7 @@ export const jenaResponseDataSet: DemoDataSet = {
       students: [
         {
           id: 'student-jena-1',
-          name: 'Digital Learner 1',
+          name: 'Digital Learner 1 (ID: 20460)',
           results: [
             {
               competence_id: 'comp-text-comprehension',
@@ -615,7 +844,7 @@ export const jenaResponseDataSet: DemoDataSet = {
               points_achieved: 1,
               points_possible: 1,
               level: 4,
-              solution_approach: 'Digitale Navigation'
+              solution_approach: 'Erfolgreiches digitales Textverständnis'
             },
             {
               competence_id: 'comp-digital-reading',
@@ -623,7 +852,7 @@ export const jenaResponseDataSet: DemoDataSet = {
               points_achieved: 1,
               points_possible: 1,
               level: 4,
-              solution_approach: 'Systematische Suche'
+              solution_approach: 'Systematische Informationsentnahme'
             },
             {
               competence_id: 'comp-text-comprehension',
@@ -631,7 +860,69 @@ export const jenaResponseDataSet: DemoDataSet = {
               points_achieved: 1,
               points_possible: 1,
               level: 5,
-              solution_approach: 'Strukturierte Analyse'
+              solution_approach: 'Strukturierte Textanalyse'
+            },
+            {
+              competence_id: 'comp-digital-reading',
+              task_id: 'iDO10002',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Schwierigkeiten bei komplexen Texten'
+            },
+            {
+              competence_id: 'comp-digital-reading',
+              task_id: 'iDO12402',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 3,
+              solution_approach: 'Teilweise erfolgreich'
+            }
+          ]
+        },
+        {
+          id: 'student-jena-2',
+          name: 'Digital Learner 2 (ID: 20461)',
+          results: [
+            {
+              competence_id: 'comp-text-comprehension',
+              task_id: 'iDO10001',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Grundverständnis entwicklungsbedürftig'
+            },
+            {
+              competence_id: 'comp-digital-reading',
+              task_id: 'iDO12401',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 3,
+              solution_approach: 'Solide Informationsentnahme'
+            },
+            {
+              competence_id: 'comp-text-comprehension',
+              task_id: 'iDO13001',
+              points_achieved: 0,
+              points_possible: 1,
+              level: 2,
+              solution_approach: 'Benötigt Unterstützung bei Analyse'
+            },
+            {
+              competence_id: 'comp-digital-reading',
+              task_id: 'iDO10002',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 4,
+              solution_approach: 'Gute Navigation in digitalen Medien'
+            },
+            {
+              competence_id: 'comp-digital-reading',
+              task_id: 'iDO12402',
+              points_achieved: 1,
+              points_possible: 1,
+              level: 4,
+              solution_approach: 'Sichere Anwendung digitaler Strategien'
             }
           ]
         }
@@ -681,44 +972,35 @@ export const kompetenztestDataSet: DemoDataSet = {
       ],
       tasks: [
         {
-          id: 'kt-math-1',
-          name: 'Gleichungen lösen',
+          id: 'kt-math-algebra-1',
+          name: 'Lineare Gleichungen und Ungleichungen',
           competence_id: 'comp-kt-algebra',
           max_points: 8,
-          description: 'Lineare Gleichungen'
+          description: 'Lösen linearer Gleichungen und Ungleichungen'
         },
         {
-          id: 'kt-math-2',
-          name: 'Funktionsgraphen',
+          id: 'kt-math-algebra-2',
+          name: 'Gleichungssysteme',
+          competence_id: 'comp-kt-algebra',
+          max_points: 6,
+          description: 'Systeme linearer Gleichungen lösen'
+        },
+        {
+          id: 'kt-math-functions-1',
+          name: 'Funktionsgraphen interpretieren',
           competence_id: 'comp-kt-functions',
           max_points: 6,
-          description: 'Interpretieren von Graphen'
+          description: 'Eigenschaften von Funktionen aus Graphen ablesen'
+        },
+        {
+          id: 'kt-math-functions-2',
+          name: 'Funktionsgleichungen aufstellen',
+          competence_id: 'comp-kt-functions',
+          max_points: 5,
+          description: 'Funktionsgleichungen aus gegebenen Bedingungen bestimmen'
         }
       ],
-      students: [
-        {
-          id: 'student-kt-1',
-          name: 'Brandenburg Schüler 1',
-          results: [
-            {
-              competence_id: 'comp-kt-algebra',
-              task_id: 'kt-math-1',
-              points_achieved: 6,
-              points_possible: 8,
-              level: 3,
-              solution_approach: 'Äquivalenzumformung'
-            },
-            {
-              competence_id: 'comp-kt-functions',
-              task_id: 'kt-math-2',
-              points_achieved: 4,
-              points_possible: 6,
-              level: 3,
-              solution_approach: 'Graphische Interpretation'
-            }
-          ]
-        }
-      ]
+      students: parseKompetenztestExcel('/Users/janrenz/code/tba3-demo-api/data/Kompetenztest/mathe8.xlsx', 'math')
     },
     {
       id: 'course-german-8',
@@ -734,29 +1016,28 @@ export const kompetenztestDataSet: DemoDataSet = {
       ],
       tasks: [
         {
-          id: 'kt-german-1',
+          id: 'kt-german-sachtextanalyse',
           name: 'Sachtextanalyse',
           competence_id: 'comp-kt-reading',
           max_points: 12,
-          description: 'Analyse eines Sachtextes'
+          description: 'Analyse und Interpretation von Sachtexten'
+        },
+        {
+          id: 'kt-german-literarisch',
+          name: 'Literarische Texte verstehen',
+          competence_id: 'comp-kt-reading',
+          max_points: 10,
+          description: 'Verstehen und Analysieren literarischer Texte'
+        },
+        {
+          id: 'kt-german-interpretation',
+          name: 'Textinterpretation',
+          competence_id: 'comp-kt-reading',
+          max_points: 8,
+          description: 'Interpretieren von Texten und sprachlichen Mitteln'
         }
       ],
-      students: [
-        {
-          id: 'student-kt-2',
-          name: 'Brandenburg Schüler 2',
-          results: [
-            {
-              competence_id: 'comp-kt-reading',
-              task_id: 'kt-german-1',
-              points_achieved: 9,
-              points_possible: 12,
-              level: 4,
-              solution_approach: 'Strukturierte Textanalyse'
-            }
-          ]
-        }
-      ]
+      students: parseKompetenztestExcel('/Users/janrenz/code/tba3-demo-api/data/Kompetenztest/deutsch3lesen.xlsx', 'german')
     }
   ]
 };
