@@ -49,6 +49,22 @@ export interface DemoCompetence {
   name: string;
   description?: string;
   max_level: number;
+  hierarchy?: CompetenceHierarchy;
+  prerequisites?: string[];
+  progression_indicators?: string[];
+}
+
+export interface CompetenceHierarchy {
+  levels: CompetenceLevel[];
+  progression_pathway: string[];
+}
+
+export interface CompetenceLevel {
+  level: number;
+  name: string;
+  description: string;
+  skills: string[];
+  examples: string[];
 }
 
 export interface DemoTask {
@@ -57,4 +73,24 @@ export interface DemoTask {
   competence_id: string;
   max_points: number;
   description?: string;
+  difficulty_level?: 'easy' | 'medium' | 'hard';
+  cognitive_level?: 'remember' | 'understand' | 'apply' | 'analyze' | 'evaluate' | 'create';
+  time_limit_minutes?: number;
+  scoring_rubric?: ScoringRubric;
+  keywords?: string[];
+}
+
+export interface ScoringRubric {
+  levels: RubricLevel[];
+  criteria: string[];
+}
+
+export interface RubricLevel {
+  level: number;
+  name: string;
+  description: string;
+  point_range: {
+    min: number;
+    max: number;
+  };
 }

@@ -43,7 +43,19 @@ export const sampleDataSet: DemoDataSet = {
           id: 'comp-algebra',
           name: 'Algebra',
           description: 'Algebraic problem solving',
-          max_level: 5
+          max_level: 5,
+          hierarchy: {
+            levels: [
+              { level: 1, name: 'Basic Operations', description: 'Simple arithmetic and basic equation solving', skills: ['Addition/subtraction of terms', 'Simple equation solving'], examples: ['x + 5 = 12', '2x = 10'] },
+              { level: 2, name: 'Linear Equations', description: 'Solving linear equations and inequalities', skills: ['Linear equation solving', 'Basic inequality solving'], examples: ['3x - 7 = 8', '2x + 1 > 5'] },
+              { level: 3, name: 'Systems & Polynomials', description: 'Working with systems and polynomial operations', skills: ['System solving', 'Polynomial operations'], examples: ['x + y = 5, 2x - y = 1', '(x + 2)(x - 3)'] },
+              { level: 4, name: 'Quadratic Functions', description: 'Comprehensive quadratic equation solving', skills: ['Factoring', 'Quadratic formula', 'Completing the square'], examples: ['x² - 5x + 6 = 0', 'x² + 4x + 1 = 0'] },
+              { level: 5, name: 'Advanced Algebra', description: 'Complex algebraic manipulations and abstract reasoning', skills: ['Complex factoring', 'Rational expressions', 'Advanced problem solving'], examples: ['x³ - 8 = 0', 'Complex rational equations'] }
+            ],
+            progression_pathway: ['Master basic operations', 'Develop equation solving skills', 'Learn system solving', 'Master quadratic methods', 'Apply advanced techniques']
+          },
+          prerequisites: ['Basic arithmetic', 'Order of operations'],
+          progression_indicators: ['Accuracy in calculations', 'Method selection', 'Problem decomposition', 'Verification skills']
         },
         {
           id: 'comp-geometry',
@@ -64,28 +76,84 @@ export const sampleDataSet: DemoDataSet = {
           name: 'Quadratische Gleichungen',
           competence_id: 'comp-algebra',
           max_points: 20,
-          description: 'Solve quadratic equations'
+          description: 'Solve quadratic equations using various methods including factoring, completing the square, and quadratic formula',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 45,
+          keywords: ['quadratic', 'equations', 'factoring', 'discriminant'],
+          scoring_rubric: {
+            criteria: ['Correct method selection', 'Calculation accuracy', 'Solution verification', 'Clear presentation'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Little to no understanding of quadratic equations', point_range: { min: 0, max: 5 } },
+              { level: 2, name: 'Basic', description: 'Can solve simple quadratic equations with support', point_range: { min: 6, max: 10 } },
+              { level: 3, name: 'Adequate', description: 'Solves most quadratic equations correctly using standard methods', point_range: { min: 11, max: 15 } },
+              { level: 4, name: 'Proficient', description: 'Consistently solves quadratic equations using multiple methods', point_range: { min: 16, max: 18 } },
+              { level: 5, name: 'Advanced', description: 'Demonstrates mastery with complex problems and optimal method selection', point_range: { min: 19, max: 20 } }
+            ]
+          }
         },
         {
           id: 'task-algebra-2',
           name: 'Lineare Funktionen',
           competence_id: 'comp-algebra',
           max_points: 15,
-          description: 'Work with linear functions'
+          description: 'Analyze and work with linear functions including slope, intercepts, and graphical representations',
+          difficulty_level: 'medium',
+          cognitive_level: 'understand',
+          time_limit_minutes: 30,
+          keywords: ['linear', 'functions', 'slope', 'intercept', 'graph'],
+          scoring_rubric: {
+            criteria: ['Function identification', 'Slope calculation', 'Intercept determination', 'Graph interpretation'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Cannot identify linear functions', point_range: { min: 0, max: 3 } },
+              { level: 2, name: 'Basic', description: 'Identifies simple linear functions with guidance', point_range: { min: 4, max: 6 } },
+              { level: 3, name: 'Adequate', description: 'Works with linear functions using standard procedures', point_range: { min: 7, max: 10 } },
+              { level: 4, name: 'Proficient', description: 'Demonstrates good understanding of linear function properties', point_range: { min: 11, max: 13 } },
+              { level: 5, name: 'Advanced', description: 'Shows mastery in all aspects of linear functions', point_range: { min: 14, max: 15 } }
+            ]
+          }
         },
         {
           id: 'task-geometry-1',
           name: 'Flächenberechnung',
           competence_id: 'comp-geometry',
           max_points: 18,
-          description: 'Calculate areas of complex shapes'
+          description: 'Calculate areas of complex shapes including composite figures, irregular polygons, and shapes involving circles',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 40,
+          keywords: ['area', 'geometry', 'composite', 'polygons', 'circles'],
+          scoring_rubric: {
+            criteria: ['Shape decomposition', 'Formula application', 'Calculation accuracy', 'Unit handling'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Cannot calculate basic areas', point_range: { min: 0, max: 4 } },
+              { level: 2, name: 'Basic', description: 'Calculates simple areas with support', point_range: { min: 5, max: 8 } },
+              { level: 3, name: 'Adequate', description: 'Handles most area calculations correctly', point_range: { min: 9, max: 12 } },
+              { level: 4, name: 'Proficient', description: 'Efficiently calculates complex areas', point_range: { min: 13, max: 16 } },
+              { level: 5, name: 'Advanced', description: 'Demonstrates exceptional spatial reasoning and calculation skills', point_range: { min: 17, max: 18 } }
+            ]
+          }
         },
         {
           id: 'task-analysis-1',
           name: 'Funktionsanalyse',
           competence_id: 'comp-analysis',
           max_points: 25,
-          description: 'Analyze function properties'
+          description: 'Comprehensive analysis of function properties including domain, range, continuity, limits, and derivative applications',
+          difficulty_level: 'hard',
+          cognitive_level: 'analyze',
+          time_limit_minutes: 60,
+          keywords: ['functions', 'analysis', 'derivatives', 'limits', 'continuity'],
+          scoring_rubric: {
+            criteria: ['Domain/range identification', 'Limit calculations', 'Derivative applications', 'Graph interpretation', 'Mathematical reasoning'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Little understanding of function analysis concepts', point_range: { min: 0, max: 6 } },
+              { level: 2, name: 'Basic', description: 'Can perform simple function analysis with guidance', point_range: { min: 7, max: 12 } },
+              { level: 3, name: 'Adequate', description: 'Demonstrates solid understanding of function analysis techniques', point_range: { min: 13, max: 18 } },
+              { level: 4, name: 'Proficient', description: 'Shows advanced function analysis skills with clear reasoning', point_range: { min: 19, max: 22 } },
+              { level: 5, name: 'Advanced', description: 'Exceptional mastery of function analysis with sophisticated understanding', point_range: { min: 23, max: 25 } }
+            ]
+          }
         }
       ],
       students: [
@@ -1125,8 +1193,179 @@ export const zepfDataSet: DemoDataSet = {
   ]
 };
 
+// English Translation of Sample Dataset
+export const sampleDataSetEN: DemoDataSet = {
+  id: 'sample-dataset-en',
+  name: 'Sample Educational Assessment Data (English)',
+  description: 'English translation of sample data for demonstrating TBA3 API functionality',
+  schools: [
+    {
+      id: 'school-1',
+      name: 'Example High School',
+      runs: [
+        {
+          id: 'run-2024-spring',
+          name: 'Spring 2024 Assessment',
+          start_date: '2024-03-01',
+          end_date: '2024-03-15',
+          course_ids: ['course-math-10a', 'course-math-10b', 'course-english-10a']
+        }
+      ]
+    },
+    {
+      id: 'school-2',
+      name: 'Sample Secondary School',
+      runs: [
+        {
+          id: 'run-2024-spring',
+          name: 'Spring 2024 Assessment',
+          start_date: '2024-03-01',
+          end_date: '2024-03-15',
+          course_ids: ['course-math-9a', 'course-english-9a']
+        }
+      ]
+    }
+  ],
+  courses: [
+    {
+      id: 'course-math-10a',
+      name: 'Mathematics 10a',
+      school_id: 'school-1',
+      competences: [
+        {
+          id: 'comp-algebra',
+          name: 'Algebra',
+          description: 'Algebraic problem solving and mathematical reasoning',
+          max_level: 5,
+          hierarchy: {
+            levels: [
+              { level: 1, name: 'Basic Operations', description: 'Simple arithmetic and basic equation solving', skills: ['Addition/subtraction of terms', 'Simple equation solving'], examples: ['x + 5 = 12', '2x = 10'] },
+              { level: 2, name: 'Linear Equations', description: 'Solving linear equations and inequalities', skills: ['Linear equation solving', 'Basic inequality solving'], examples: ['3x - 7 = 8', '2x + 1 > 5'] },
+              { level: 3, name: 'Systems & Polynomials', description: 'Working with systems and polynomial operations', skills: ['System solving', 'Polynomial operations'], examples: ['x + y = 5, 2x - y = 1', '(x + 2)(x - 3)'] },
+              { level: 4, name: 'Quadratic Functions', description: 'Comprehensive quadratic equation solving', skills: ['Factoring', 'Quadratic formula', 'Completing the square'], examples: ['x² - 5x + 6 = 0', 'x² + 4x + 1 = 0'] },
+              { level: 5, name: 'Advanced Algebra', description: 'Complex algebraic manipulations and abstract reasoning', skills: ['Complex factoring', 'Rational expressions', 'Advanced problem solving'], examples: ['x³ - 8 = 0', 'Complex rational equations'] }
+            ],
+            progression_pathway: ['Master basic operations', 'Develop equation solving skills', 'Learn system solving', 'Master quadratic methods', 'Apply advanced techniques']
+          },
+          prerequisites: ['Basic arithmetic', 'Order of operations'],
+          progression_indicators: ['Accuracy in calculations', 'Method selection', 'Problem decomposition', 'Verification skills']
+        },
+        {
+          id: 'comp-geometry',
+          name: 'Geometry',
+          description: 'Geometric reasoning and spatial mathematics',
+          max_level: 5
+        },
+        {
+          id: 'comp-analysis',
+          name: 'Mathematical Analysis',
+          description: 'Functions, limits, and calculus fundamentals',
+          max_level: 5
+        }
+      ],
+      tasks: [
+        {
+          id: 'task-algebra-1',
+          name: 'Quadratic Equations',
+          competence_id: 'comp-algebra',
+          max_points: 20,
+          description: 'Solve quadratic equations using various methods including factoring, completing the square, and quadratic formula',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 45,
+          keywords: ['quadratic', 'equations', 'factoring', 'discriminant'],
+          scoring_rubric: {
+            criteria: ['Correct method selection', 'Calculation accuracy', 'Solution verification', 'Clear presentation'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Little to no understanding of quadratic equations', point_range: { min: 0, max: 5 } },
+              { level: 2, name: 'Basic', description: 'Can solve simple quadratic equations with support', point_range: { min: 6, max: 10 } },
+              { level: 3, name: 'Adequate', description: 'Solves most quadratic equations correctly using standard methods', point_range: { min: 11, max: 15 } },
+              { level: 4, name: 'Proficient', description: 'Consistently solves quadratic equations using multiple methods', point_range: { min: 16, max: 18 } },
+              { level: 5, name: 'Advanced', description: 'Demonstrates mastery with complex problems and optimal method selection', point_range: { min: 19, max: 20 } }
+            ]
+          }
+        },
+        {
+          id: 'task-algebra-2',
+          name: 'Linear Functions',
+          competence_id: 'comp-algebra',
+          max_points: 15,
+          description: 'Analyze and work with linear functions including slope, intercepts, and graphical representations',
+          difficulty_level: 'medium',
+          cognitive_level: 'understand',
+          time_limit_minutes: 30,
+          keywords: ['linear', 'functions', 'slope', 'intercept', 'graph']
+        },
+        {
+          id: 'task-geometry-1',
+          name: 'Area Calculations',
+          competence_id: 'comp-geometry',
+          max_points: 18,
+          description: 'Calculate areas of complex shapes including composite figures, irregular polygons, and shapes involving circles',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 40,
+          keywords: ['area', 'geometry', 'composite', 'polygons', 'circles']
+        },
+        {
+          id: 'task-analysis-1',
+          name: 'Function Analysis',
+          competence_id: 'comp-analysis',
+          max_points: 25,
+          description: 'Comprehensive analysis of function properties including domain, range, continuity, limits, and derivative applications',
+          difficulty_level: 'hard',
+          cognitive_level: 'analyze',
+          time_limit_minutes: 60,
+          keywords: ['functions', 'analysis', 'derivatives', 'limits', 'continuity']
+        }
+      ],
+      students: [
+        {
+          id: 'student-1',
+          name: 'Anna M.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 18,
+              points_possible: 20,
+              level: 4,
+              solution_approach: 'Factorization method'
+            },
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-2',
+              points_achieved: 14,
+              points_possible: 15,
+              level: 4,
+              solution_approach: 'Graphical method'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 16,
+              points_possible: 18,
+              level: 4,
+              solution_approach: 'Decomposition into sub-areas'
+            },
+            {
+              competence_id: 'comp-analysis',
+              task_id: 'task-analysis-1',
+              points_achieved: 20,
+              points_possible: 25,
+              level: 3,
+              solution_approach: 'Derivative rules application'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
 export const dataSets: { [key: string]: DemoDataSet } = {
   'sample': sampleDataSet,
+  'sample-en': sampleDataSetEN,
   'vera3-math': vera3MathDataSet,
   'jena-response': jenaResponseDataSet,
   'kompetenztest': kompetenztestDataSet,
