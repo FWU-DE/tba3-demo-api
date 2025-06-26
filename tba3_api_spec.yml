@@ -1,0 +1,367 @@
+openapi: 3.1.0
+info:
+  title: API für Lernstandserhebungen
+  description: >-
+    Diese API ermöglicht es, Ergebnisse von Lernstandserhebungen (TBA3)
+    abzurufen. Sie bietet detaillierte Einblicke in die Leistungen der
+    Schülerinnen und Schüler auf verschiedenen Ebenen.
+  version: 0.0.2
+servers:
+  - url: https://api.example.com/v1
+    description: Produktionsserver
+paths:
+  /courses/{courseId}/statistics:
+    get:
+      summary: Kursstatistiken abrufen
+      description: >-
+        Ruft statistische Daten für einen bestimmten Kurs ab. Diese können nach
+        verschiedenen Kriterien gruppiert und gefiltert werden.
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Eindeutige Kennung des Kurses
+        - name: metric
+          in: query
+          schema:
+            type: string
+            enum:
+              - competence_levels
+              - solution_frequencies
+              - task_performance
+          description: Art der Metrik, die abgerufen werden soll
+        - name: group_by
+          in: query
+          schema:
+            type: string
+            enum:
+              - students
+              - competences
+              - tasks
+          description: Gruppierungskriterium für die Statistiken
+        - name: competence
+          in: query
+          schema:
+            type: string
+          description: Filter nach einer bestimmten Kompetenz
+        - name: task
+          in: query
+          schema:
+            type: string
+          description: Filter nach einer bestimmten Aufgabe
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Kursstatistiken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseStatistics'
+        '404':
+          description: Kurs nicht gefunden
+        '400':
+          description: Ungültige Parameter
+      security:
+        - bearerAuth: []
+  /courses/{courseId}/students:
+    get:
+      summary: Schülerleistungen in einem Kurs abrufen
+      description: >-
+        Ruft detaillierte Leistungsdaten aller Schülerinnen und Schüler eines
+        Kurses ab.
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Eindeutige Kennung des Kurses
+        - name: competence
+          in: query
+          schema:
+            type: string
+          description: Filter nach einer bestimmten Kompetenz
+        - name: task
+          in: query
+          schema:
+            type: string
+          description: Filter nach einer bestimmten Aufgabe
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Schülerleistungen
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentPerformances'
+        '404':
+          description: Kurs nicht gefunden
+      security:
+        - bearerAuth: []
+  /schools/{schoolId}/runs/{runId}/statistics:
+    get:
+      summary: Schuldurchlaufstatistiken abrufen
+      description: >-
+        Ruft statistische Daten für einen bestimmten Durchlauf an einer Schule
+        ab. Ermöglicht auch Vergleiche mit ähnlichen Schulen.
+      parameters:
+        - name: schoolId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Eindeutige Kennung der Schule
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Eindeutige Kennung des Durchlaufs
+        - name: metric
+          in: query
+          schema:
+            type: string
+            enum:
+              - competence_levels
+              - course_comparisons
+          description: Art der Metrik, die abgerufen werden soll
+        - name: compare_with_similar
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Ob ein Vergleich mit ähnlichen Schulen durchgeführt werden soll
+      responses:
+        '200':
+          description: Erfolgreich abgerufene Schuldurchlaufstatistiken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SchoolRunStatistics'
+        '404':
+          description: Schule oder Durchlauf nicht gefunden
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    CourseStatistics:
+      type: object
+      properties:
+        course_id:
+          type: string
+          description: Eindeutige Kennung des Kurses
+        metric:
+          type: string
+          enum:
+            - competence_levels
+            - solution_frequencies
+            - task_performance
+          description: Art der abgerufenen Metrik
+        group_by:
+          type: string
+          enum:
+            - students
+            - competences
+            - tasks
+          description: Verwendetes Gruppierungskriterium
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticItem'
+        total_participants:
+          type: integer
+          description: Gesamtzahl der Teilnehmer
+        generated_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt der Generierung der Statistik
+      required:
+        - course_id
+        - metric
+        - data
+        - total_participants
+        - generated_at
+    StatisticItem:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Bezeichnung des Statistikeintrags
+        value:
+          type: number
+          description: Numerischer Wert
+        percentage:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Prozentualer Anteil
+        count:
+          type: integer
+          description: Absolute Anzahl
+      required:
+        - label
+        - value
+    StudentPerformances:
+      type: object
+      properties:
+        course_id:
+          type: string
+          description: Eindeutige Kennung des Kurses
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentPerformance'
+        total_students:
+          type: integer
+          description: Gesamtzahl der Studierenden
+        generated_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt der Generierung der Daten
+      required:
+        - course_id
+        - students
+        - total_students
+        - generated_at
+    StudentPerformance:
+      type: object
+      properties:
+        student_id:
+          type: string
+          description: Eindeutige Kennung des Schülers (anonymisiert)
+        competences:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompetenceResult'
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskResult'
+        overall_score:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Gesamtpunktzahl in Prozent
+      required:
+        - student_id
+        - competences
+        - tasks
+        - overall_score
+    CompetenceResult:
+      type: object
+      properties:
+        competence_id:
+          type: string
+          description: Eindeutige Kennung der Kompetenz
+        competence_name:
+          type: string
+          description: Name der Kompetenz
+        level:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Erreichte Kompetenzstufe
+        score:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Erreichte Punktzahl in Prozent
+      required:
+        - competence_id
+        - competence_name
+        - level
+        - score
+    TaskResult:
+      type: object
+      properties:
+        task_id:
+          type: string
+          description: Eindeutige Kennung der Aufgabe
+        task_name:
+          type: string
+          description: Name der Aufgabe
+        points_achieved:
+          type: number
+          description: Erreichte Punkte
+        points_possible:
+          type: number
+          description: Maximal mögliche Punkte
+        percentage:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Erreichte Punkte in Prozent
+        solution_approach:
+          type: string
+          description: Verwendeter Lösungsansatz
+      required:
+        - task_id
+        - task_name
+        - points_achieved
+        - points_possible
+        - percentage
+    SchoolRunStatistics:
+      type: object
+      properties:
+        school_id:
+          type: string
+          description: Eindeutige Kennung der Schule
+        run_id:
+          type: string
+          description: Eindeutige Kennung des Durchlaufs
+        metric:
+          type: string
+          enum:
+            - competence_levels
+            - course_comparisons
+          description: Art der abgerufenen Metrik
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatisticItem'
+        comparison_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComparisonData'
+          description: Vergleichsdaten mit ähnlichen Schulen (optional)
+        total_courses:
+          type: integer
+          description: Gesamtzahl der Kurse im Durchlauf
+        generated_at:
+          type: string
+          format: date-time
+          description: Zeitpunkt der Generierung der Statistik
+      required:
+        - school_id
+        - run_id
+        - metric
+        - data
+        - total_courses
+        - generated_at
+    ComparisonData:
+      type: object
+      properties:
+        comparison_group:
+          type: string
+          description: Bezeichnung der Vergleichsgruppe
+        our_school:
+          $ref: '#/components/schemas/StatisticItem'
+        similar_schools_average:
+          $ref: '#/components/schemas/StatisticItem'
+        percentile_rank:
+          type: integer
+          minimum: 1
+          maximum: 100
+          description: Prozentrang im Vergleich zu ähnlichen Schulen
+      required:
+        - comparison_group
+        - our_school
+        - similar_schools_average
+        - percentile_rank
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
