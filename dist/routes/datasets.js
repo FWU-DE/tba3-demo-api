@@ -6,16 +6,41 @@ const router = (0, express_1.Router)();
 // GET /datasets - List available datasets
 router.get('/', (req, res) => {
     try {
-        const datasets = Object.keys(sample_data_1.dataSets).map(key => ({
-            id: key,
-            name: sample_data_1.dataSets[key].name,
-            description: sample_data_1.dataSets[key].description,
-            schools_count: sample_data_1.dataSets[key].schools.length,
-            courses_count: sample_data_1.dataSets[key].courses.length
-        }));
+        const baseUrl = `${req.protocol}://${req.get('host')}`;
+        const datasets = Object.keys(sample_data_1.dataSets).map(key => {
+            const dataset = sample_data_1.dataSets[key];
+            return {
+                id: key,
+                name: dataset.name,
+                description: dataset.description,
+                schools_count: dataset.schools.length,
+                courses_count: dataset.courses.length,
+                links: {
+                    self: `${baseUrl}/datasets/${key}`,
+                    schools: dataset.schools.map(school => ({
+                        id: school.id,
+                        name: school.name,
+                        runs: school.runs.map(run => ({
+                            id: run.id,
+                            name: run.name,
+                            statistics: `${baseUrl}/schools/${school.id}/runs/${run.id}/statistics`
+                        }))
+                    })),
+                    courses: dataset.courses.map(course => ({
+                        id: course.id,
+                        name: course.name,
+                        statistics: `${baseUrl}/courses/${course.id}/statistics`,
+                        students: `${baseUrl}/courses/${course.id}/students`
+                    }))
+                }
+            };
+        });
         res.json({
             datasets,
-            total_count: datasets.length
+            total_count: datasets.length,
+            links: {
+                self: `${baseUrl}/datasets`
+            }
         });
     }
     catch (error) {
@@ -70,32 +95,6 @@ router.get('/:datasetId', (req, res) => {
     }
     catch (error) {
         console.error('Error getting dataset details:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-// POST /datasets/:datasetId - Add or update a dataset (for future use when user provides data)
-router.post('/:datasetId', (req, res) => {
-    try {
-        const { datasetId } = req.params;
-        const datasetData = req.body;
-        // Basic validation
-        if (!datasetData.name || !datasetData.description || !datasetData.schools || !datasetData.courses) {
-            return res.status(400).json({
-                error: 'Invalid dataset format. Required fields: name, description, schools, courses'
-            });
-        }
-        // Store the dataset
-        sample_data_1.dataSets[datasetId] = {
-            id: datasetId,
-            ...datasetData
-        };
-        res.status(201).json({
-            message: 'Dataset created/updated successfully',
-            dataset_id: datasetId
-        });
-    }
-    catch (error) {
-        console.error('Error creating/updating dataset:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

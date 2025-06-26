@@ -85,7 +85,6 @@ app.use('*', (req, res) => {
             'GET /api-spec',
             'GET /datasets',
             'GET /datasets/{datasetId}',
-            'POST /datasets/{datasetId}',
             'GET /courses/{courseId}/statistics',
             'GET /courses/{courseId}/students',
             'GET /schools/{schoolId}/runs/{runId}/statistics'

@@ -6,17 +6,43 @@ const router = Router();
 // GET /datasets - List available datasets
 router.get('/', (req: Request, res: Response) => {
   try {
-    const datasets = Object.keys(dataSets).map(key => ({
-      id: key,
-      name: dataSets[key].name,
-      description: dataSets[key].description,
-      schools_count: dataSets[key].schools.length,
-      courses_count: dataSets[key].courses.length
-    }));
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    
+    const datasets = Object.keys(dataSets).map(key => {
+      const dataset = dataSets[key];
+      return {
+        id: key,
+        name: dataset.name,
+        description: dataset.description,
+        schools_count: dataset.schools.length,
+        courses_count: dataset.courses.length,
+        links: {
+          self: `${baseUrl}/datasets/${key}`,
+          schools: dataset.schools.map(school => ({
+            id: school.id,
+            name: school.name,
+            runs: school.runs.map(run => ({
+              id: run.id,
+              name: run.name,
+              statistics: `${baseUrl}/schools/${school.id}/runs/${run.id}/statistics`
+            }))
+          })),
+          courses: dataset.courses.map(course => ({
+            id: course.id,
+            name: course.name,
+            statistics: `${baseUrl}/courses/${course.id}/statistics`,
+            students: `${baseUrl}/courses/${course.id}/students`
+          }))
+        }
+      };
+    });
 
     res.json({
       datasets,
-      total_count: datasets.length
+      total_count: datasets.length,
+      links: {
+        self: `${baseUrl}/datasets`
+      }
     });
   } catch (error) {
     console.error('Error listing datasets:', error);
@@ -76,33 +102,5 @@ router.get('/:datasetId', (req: Request, res: Response) => {
   }
 });
 
-// POST /datasets/:datasetId - Add or update a dataset (for future use when user provides data)
-router.post('/:datasetId', (req: Request, res: Response) => {
-  try {
-    const { datasetId } = req.params;
-    const datasetData = req.body;
-
-    // Basic validation
-    if (!datasetData.name || !datasetData.description || !datasetData.schools || !datasetData.courses) {
-      return res.status(400).json({ 
-        error: 'Invalid dataset format. Required fields: name, description, schools, courses' 
-      });
-    }
-
-    // Store the dataset
-    dataSets[datasetId] = {
-      id: datasetId,
-      ...datasetData
-    };
-
-    res.status(201).json({
-      message: 'Dataset created/updated successfully',
-      dataset_id: datasetId
-    });
-  } catch (error) {
-    console.error('Error creating/updating dataset:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 export default router;
