@@ -1,6 +1,6 @@
 # TBA3 Demo API
 
-A TypeScript-based API server that provides demo data transformed to match the TBA3 API specification for educational assessment data.
+A TypeScript-based API server that provides demo data to test the API Schema for TBA3. It includes demo data generated to show example responses and AI generated examples from existing data transformed into the new schema. These examples are for the sake of demonstration only. They exist for the sole purpose of determining if the API schema fits the current needs and how it should be further developed.
 
 ## Features
 
@@ -48,6 +48,9 @@ The API will be available at `http://localhost:3000`
 - `GET /courses/{courseId}/statistics` - Course statistics
 - `GET /courses/{courseId}/students` - Student performances in a course
 - `GET /schools/{schoolId}/runs/{runId}/statistics` - School run statistics
+
+available school ids: `school-1` and `school-2`
+available course ids: `1-course-math-8a`, `1-course-math-8b`, `1-course-german-8a`, `2-course-math-8a`
 
 ## Query Parameters
 
