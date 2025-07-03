@@ -15,27 +15,27 @@ export const sampleDataSet: DemoDataSet = {
           name: 'Spring 2024 Assessment',
           start_date: '2024-03-01',
           end_date: '2024-03-15',
-          course_ids: ['course-math-10a', 'course-math-10b', 'course-german-10a']
+          course_ids: ['1-course-math-8a', '1-course-math-8b', '1-course-german-8a']
         }
       ]
     },
     {
       id: 'school-2',
-      name: 'Realschule Beispielort',
+      name: 'Gymnasium Beispielort',
       runs: [
         {
           id: 'run-2024-spring',
           name: 'Spring 2024 Assessment',
           start_date: '2024-03-01',
           end_date: '2024-03-15',
-          course_ids: ['course-math-9a', 'course-german-9a']
+          course_ids: ['2-course-math-8a']
         }
       ]
     }
   ],
   courses: [
     {
-      id: 'course-math-10a',
+      id: '1-course-math-8a',
       name: 'Mathematik 10a',
       school_id: 'school-1',
       competences: [
@@ -159,7 +159,7 @@ export const sampleDataSet: DemoDataSet = {
       students: [
         {
           id: 'student-1',
-          name: 'Anna M.',
+          name: 'Ben M.',
           results: [
             {
               competence_id: 'comp-algebra',
@@ -197,7 +197,7 @@ export const sampleDataSet: DemoDataSet = {
         },
         {
           id: 'student-2',
-          name: 'Ben K.',
+          name: 'Anna K.',
           results: [
             {
               competence_id: 'comp-algebra',
@@ -235,7 +235,424 @@ export const sampleDataSet: DemoDataSet = {
         },
         {
           id: 'student-3',
-          name: 'Clara S.',
+          name: 'David S.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 19,
+              points_possible: 20,
+              level: 5,
+              solution_approach: 'Faktorisierung'
+            },
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-2',
+              points_achieved: 15,
+              points_possible: 15,
+              level: 5,
+              solution_approach: 'Graphische Methode'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 18,
+              points_possible: 18,
+              level: 5,
+              solution_approach: 'Integralrechnung'
+            },
+            {
+              competence_id: 'comp-analysis',
+              task_id: 'task-analysis-1',
+              points_achieved: 23,
+              points_possible: 25,
+              level: 4,
+              solution_approach: 'Differentialrechnung'
+            }
+          ]
+        },
+        {
+          id: 'student-4',
+          name: 'Clara L.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 12,
+              points_possible: 20,
+              level: 2,
+              solution_approach: 'Probieren'
+            },
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-2',
+              points_achieved: 8,
+              points_possible: 15,
+              level: 2,
+              solution_approach: 'Graphische Methode'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 10,
+              points_possible: 18,
+              level: 2,
+              solution_approach: 'Näherungsverfahren'
+            },
+            {
+              competence_id: 'comp-analysis',
+              task_id: 'task-analysis-1',
+              points_achieved: 12,
+              points_possible: 25,
+              level: 2,
+              solution_approach: 'Grundregeln'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: '1-course-math-8b',
+      name: 'Mathematik 10b',
+      school_id: 'school-1',
+      competences: [
+        {
+          id: 'comp-algebra',
+          name: 'Algebra',
+          description: 'Algebraic problem solving',
+          max_level: 5
+        },
+        {
+          id: 'comp-geometry',
+          name: 'Geometrie',
+          description: 'Geometric reasoning and calculation',
+          max_level: 5
+        }
+      ],
+      tasks: [
+        {
+          id: 'task-algebra-1',
+          name: 'Quadratische Gleichungen',
+          competence_id: 'comp-algebra',
+          max_points: 20,
+          description: 'Solve quadratic equations'
+        },
+        {
+          id: 'task-geometry-1',
+          name: 'Flächenberechnung',
+          competence_id: 'comp-geometry',
+          max_points: 18,
+          description: 'Calculate areas of complex shapes'
+        }
+      ],
+      students: [
+        {
+          id: 'student-5',
+          name: 'Alma R.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 17,
+              points_possible: 20,
+              level: 4,
+              solution_approach: 'Quadratische Formel'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 15,
+              points_possible: 18,
+              level: 3,
+              solution_approach: 'Zerlegung in Teilflächen'
+            }
+          ]
+        },
+        {
+          id: 'student-6',
+          name: 'Greta T.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 13,
+              points_possible: 20,
+              level: 3,
+              solution_approach: 'Faktorisierung'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 12,
+              points_possible: 18,
+              level: 2,
+              solution_approach: 'Koordinatengeometrie'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: '1-course-german-8a',
+      name: 'Deutsch 10a',
+      school_id: 'school-1',
+      competences: [
+        {
+          id: 'comp-reading',
+          name: 'Leseverstehen',
+          description: 'Reading comprehension',
+          max_level: 5
+        },
+        {
+          id: 'comp-writing',
+          name: 'Schreiben',
+          description: 'Written expression',
+          max_level: 5
+        }
+      ],
+      tasks: [
+        {
+          id: 'task-reading-1',
+          name: 'Textanalyse',
+          competence_id: 'comp-reading',
+          max_points: 30,
+          description: 'Literary text analysis'
+        },
+        {
+          id: 'task-writing-1',
+          name: 'Erörterung',
+          competence_id: 'comp-writing',
+          max_points: 25,
+          description: 'Argumentative essay'
+        }
+      ],
+      students: [
+        {
+          id: 'student-7',
+          name: 'Brigitte W.',
+          results: [
+            {
+              competence_id: 'comp-reading',
+              task_id: 'task-reading-1',
+              points_achieved: 26,
+              points_possible: 30,
+              level: 4,
+              solution_approach: 'Strukturierte Analyse'
+            },
+            {
+              competence_id: 'comp-writing',
+              task_id: 'task-writing-1',
+              points_achieved: 22,
+              points_possible: 25,
+              level: 4,
+              solution_approach: 'Argumentative Struktur'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: '2-course-math-8a',
+      name: 'Mathematik 8a',
+      school_id: 'school-2',
+      competences: [
+        {
+          id: 'comp-algebra',
+          name: 'Algebra',
+          description: 'Algebraic problem solving',
+          max_level: 5,
+          hierarchy: {
+            levels: [
+              { level: 1, name: 'Basic Operations', description: 'Simple arithmetic and basic equation solving', skills: ['Addition/subtraction of terms', 'Simple equation solving'], examples: ['x + 5 = 12', '2x = 10'] },
+              { level: 2, name: 'Linear Equations', description: 'Solving linear equations and inequalities', skills: ['Linear equation solving', 'Basic inequality solving'], examples: ['3x - 7 = 8', '2x + 1 > 5'] },
+              { level: 3, name: 'Systems & Polynomials', description: 'Working with systems and polynomial operations', skills: ['System solving', 'Polynomial operations'], examples: ['x + y = 5, 2x - y = 1', '(x + 2)(x - 3)'] },
+              { level: 4, name: 'Quadratic Functions', description: 'Comprehensive quadratic equation solving', skills: ['Factoring', 'Quadratic formula', 'Completing the square'], examples: ['x² - 5x + 6 = 0', 'x² + 4x + 1 = 0'] },
+              { level: 5, name: 'Advanced Algebra', description: 'Complex algebraic manipulations and abstract reasoning', skills: ['Complex factoring', 'Rational expressions', 'Advanced problem solving'], examples: ['x³ - 8 = 0', 'Complex rational equations'] }
+            ],
+            progression_pathway: ['Master basic operations', 'Develop equation solving skills', 'Learn system solving', 'Master quadratic methods', 'Apply advanced techniques']
+          },
+          prerequisites: ['Basic arithmetic', 'Order of operations'],
+          progression_indicators: ['Accuracy in calculations', 'Method selection', 'Problem decomposition', 'Verification skills']
+        },
+        {
+          id: 'comp-geometry',
+          name: 'Geometrie',
+          description: 'Geometric reasoning and calculation',
+          max_level: 5
+        },
+        {
+          id: 'comp-analysis',
+          name: 'Analysis',
+          description: 'Functions and calculus basics',
+          max_level: 5
+        }
+      ],
+      tasks: [
+        {
+          id: 'task-algebra-1',
+          name: 'Quadratische Gleichungen',
+          competence_id: 'comp-algebra',
+          max_points: 20,
+          description: 'Solve quadratic equations using various methods including factoring, completing the square, and quadratic formula',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 45,
+          keywords: ['quadratic', 'equations', 'factoring', 'discriminant'],
+          scoring_rubric: {
+            criteria: ['Correct method selection', 'Calculation accuracy', 'Solution verification', 'Clear presentation'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Little to no understanding of quadratic equations', point_range: { min: 0, max: 5 } },
+              { level: 2, name: 'Basic', description: 'Can solve simple quadratic equations with support', point_range: { min: 6, max: 10 } },
+              { level: 3, name: 'Adequate', description: 'Solves most quadratic equations correctly using standard methods', point_range: { min: 11, max: 15 } },
+              { level: 4, name: 'Proficient', description: 'Consistently solves quadratic equations using multiple methods', point_range: { min: 16, max: 18 } },
+              { level: 5, name: 'Advanced', description: 'Demonstrates mastery with complex problems and optimal method selection', point_range: { min: 19, max: 20 } }
+            ]
+          }
+        },
+        {
+          id: 'task-algebra-2',
+          name: 'Lineare Funktionen',
+          competence_id: 'comp-algebra',
+          max_points: 15,
+          description: 'Analyze and work with linear functions including slope, intercepts, and graphical representations',
+          difficulty_level: 'medium',
+          cognitive_level: 'understand',
+          time_limit_minutes: 30,
+          keywords: ['linear', 'functions', 'slope', 'intercept', 'graph'],
+          scoring_rubric: {
+            criteria: ['Function identification', 'Slope calculation', 'Intercept determination', 'Graph interpretation'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Cannot identify linear functions', point_range: { min: 0, max: 3 } },
+              { level: 2, name: 'Basic', description: 'Identifies simple linear functions with guidance', point_range: { min: 4, max: 6 } },
+              { level: 3, name: 'Adequate', description: 'Works with linear functions using standard procedures', point_range: { min: 7, max: 10 } },
+              { level: 4, name: 'Proficient', description: 'Demonstrates good understanding of linear function properties', point_range: { min: 11, max: 13 } },
+              { level: 5, name: 'Advanced', description: 'Shows mastery in all aspects of linear functions', point_range: { min: 14, max: 15 } }
+            ]
+          }
+        },
+        {
+          id: 'task-geometry-1',
+          name: 'Flächenberechnung',
+          competence_id: 'comp-geometry',
+          max_points: 18,
+          description: 'Calculate areas of complex shapes including composite figures, irregular polygons, and shapes involving circles',
+          difficulty_level: 'hard',
+          cognitive_level: 'apply',
+          time_limit_minutes: 40,
+          keywords: ['area', 'geometry', 'composite', 'polygons', 'circles'],
+          scoring_rubric: {
+            criteria: ['Shape decomposition', 'Formula application', 'Calculation accuracy', 'Unit handling'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Cannot calculate basic areas', point_range: { min: 0, max: 4 } },
+              { level: 2, name: 'Basic', description: 'Calculates simple areas with support', point_range: { min: 5, max: 8 } },
+              { level: 3, name: 'Adequate', description: 'Handles most area calculations correctly', point_range: { min: 9, max: 12 } },
+              { level: 4, name: 'Proficient', description: 'Efficiently calculates complex areas', point_range: { min: 13, max: 16 } },
+              { level: 5, name: 'Advanced', description: 'Demonstrates exceptional spatial reasoning and calculation skills', point_range: { min: 17, max: 18 } }
+            ]
+          }
+        },
+        {
+          id: 'task-analysis-1',
+          name: 'Funktionsanalyse',
+          competence_id: 'comp-analysis',
+          max_points: 25,
+          description: 'Comprehensive analysis of function properties including domain, range, continuity, limits, and derivative applications',
+          difficulty_level: 'hard',
+          cognitive_level: 'analyze',
+          time_limit_minutes: 60,
+          keywords: ['functions', 'analysis', 'derivatives', 'limits', 'continuity'],
+          scoring_rubric: {
+            criteria: ['Domain/range identification', 'Limit calculations', 'Derivative applications', 'Graph interpretation', 'Mathematical reasoning'],
+            levels: [
+              { level: 1, name: 'Insufficient', description: 'Little understanding of function analysis concepts', point_range: { min: 0, max: 6 } },
+              { level: 2, name: 'Basic', description: 'Can perform simple function analysis with guidance', point_range: { min: 7, max: 12 } },
+              { level: 3, name: 'Adequate', description: 'Demonstrates solid understanding of function analysis techniques', point_range: { min: 13, max: 18 } },
+              { level: 4, name: 'Proficient', description: 'Shows advanced function analysis skills with clear reasoning', point_range: { min: 19, max: 22 } },
+              { level: 5, name: 'Advanced', description: 'Exceptional mastery of function analysis with sophisticated understanding', point_range: { min: 23, max: 25 } }
+            ]
+          }
+        }
+      ],
+      students: [
+        {
+          id: 'student-21',
+          name: 'Ali M.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 18,
+              points_possible: 20,
+              level: 4,
+              solution_approach: 'Faktorisierung'
+            },
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-2',
+              points_achieved: 14,
+              points_possible: 15,
+              level: 4,
+              solution_approach: 'Graphische Methode'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 16,
+              points_possible: 18,
+              level: 4,
+              solution_approach: 'Zerlegung in Teilflächen'
+            },
+            {
+              competence_id: 'comp-analysis',
+              task_id: 'task-analysis-1',
+              points_achieved: 20,
+              points_possible: 25,
+              level: 3,
+              solution_approach: 'Ableitungsregeln'
+            }
+          ]
+        },
+        {
+          id: 'student-22',
+          name: 'Mohammad K.',
+          results: [
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-1',
+              points_achieved: 15,
+              points_possible: 20,
+              level: 3,
+              solution_approach: 'Quadratische Formel'
+            },
+            {
+              competence_id: 'comp-algebra',
+              task_id: 'task-algebra-2',
+              points_achieved: 12,
+              points_possible: 15,
+              level: 3,
+              solution_approach: 'Algebraische Methode'
+            },
+            {
+              competence_id: 'comp-geometry',
+              task_id: 'task-geometry-1',
+              points_achieved: 14,
+              points_possible: 18,
+              level: 3,
+              solution_approach: 'Koordinatengeometrie'
+            },
+            {
+              competence_id: 'comp-analysis',
+              task_id: 'task-analysis-1',
+              points_achieved: 18,
+              points_possible: 25,
+              level: 3,
+              solution_approach: 'Grenzwertbetrachtung'
+            }
+          ]
+        },
+        {
+          id: 'student-23',
+          name: 'Sarah S.',
           results: [
             {
               competence_id: 'comp-algebra',
@@ -311,146 +728,6 @@ export const sampleDataSet: DemoDataSet = {
         }
       ]
     },
-    {
-      id: 'course-math-10b',
-      name: 'Mathematik 10b',
-      school_id: 'school-1',
-      competences: [
-        {
-          id: 'comp-algebra',
-          name: 'Algebra',
-          description: 'Algebraic problem solving',
-          max_level: 5
-        },
-        {
-          id: 'comp-geometry',
-          name: 'Geometrie',
-          description: 'Geometric reasoning and calculation',
-          max_level: 5
-        }
-      ],
-      tasks: [
-        {
-          id: 'task-algebra-1',
-          name: 'Quadratische Gleichungen',
-          competence_id: 'comp-algebra',
-          max_points: 20,
-          description: 'Solve quadratic equations'
-        },
-        {
-          id: 'task-geometry-1',
-          name: 'Flächenberechnung',
-          competence_id: 'comp-geometry',
-          max_points: 18,
-          description: 'Calculate areas of complex shapes'
-        }
-      ],
-      students: [
-        {
-          id: 'student-5',
-          name: 'Eva R.',
-          results: [
-            {
-              competence_id: 'comp-algebra',
-              task_id: 'task-algebra-1',
-              points_achieved: 17,
-              points_possible: 20,
-              level: 4,
-              solution_approach: 'Quadratische Formel'
-            },
-            {
-              competence_id: 'comp-geometry',
-              task_id: 'task-geometry-1',
-              points_achieved: 15,
-              points_possible: 18,
-              level: 3,
-              solution_approach: 'Zerlegung in Teilflächen'
-            }
-          ]
-        },
-        {
-          id: 'student-6',
-          name: 'Felix T.',
-          results: [
-            {
-              competence_id: 'comp-algebra',
-              task_id: 'task-algebra-1',
-              points_achieved: 13,
-              points_possible: 20,
-              level: 3,
-              solution_approach: 'Faktorisierung'
-            },
-            {
-              competence_id: 'comp-geometry',
-              task_id: 'task-geometry-1',
-              points_achieved: 12,
-              points_possible: 18,
-              level: 2,
-              solution_approach: 'Koordinatengeometrie'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 'course-german-10a',
-      name: 'Deutsch 10a',
-      school_id: 'school-1',
-      competences: [
-        {
-          id: 'comp-reading',
-          name: 'Leseverstehen',
-          description: 'Reading comprehension',
-          max_level: 5
-        },
-        {
-          id: 'comp-writing',
-          name: 'Schreiben',
-          description: 'Written expression',
-          max_level: 5
-        }
-      ],
-      tasks: [
-        {
-          id: 'task-reading-1',
-          name: 'Textanalyse',
-          competence_id: 'comp-reading',
-          max_points: 30,
-          description: 'Literary text analysis'
-        },
-        {
-          id: 'task-writing-1',
-          name: 'Erörterung',
-          competence_id: 'comp-writing',
-          max_points: 25,
-          description: 'Argumentative essay'
-        }
-      ],
-      students: [
-        {
-          id: 'student-7',
-          name: 'Greta W.',
-          results: [
-            {
-              competence_id: 'comp-reading',
-              task_id: 'task-reading-1',
-              points_achieved: 26,
-              points_possible: 30,
-              level: 4,
-              solution_approach: 'Strukturierte Analyse'
-            },
-            {
-              competence_id: 'comp-writing',
-              task_id: 'task-writing-1',
-              points_achieved: 22,
-              points_possible: 25,
-              level: 4,
-              solution_approach: 'Argumentative Struktur'
-            }
-          ]
-        }
-      ]
-    }
   ]
 };
 
@@ -760,7 +1037,7 @@ export const vera3MathDataSet: DemoDataSet = {
         },
         {
           id: 'student-vera3-7',
-          name: 'Schüler 7 (BISTA: 619)',
+          name: 'Schüler 7 (BISTA: 719)',
           results: [
             {
               competence_id: 'comp-numbers-operations',
@@ -798,7 +1075,7 @@ export const vera3MathDataSet: DemoDataSet = {
         },
         {
           id: 'student-vera3-8',
-          name: 'Schüler 8 (BISTA: 351)',
+          name: 'Schüler 8 (BISTA: 251)',
           results: [
             {
               competence_id: 'comp-numbers-operations',
@@ -950,7 +1227,7 @@ export const jenaResponseDataSet: DemoDataSet = {
         },
         {
           id: 'student-jena-2',
-          name: 'Digital Learner 2 (ID: 20461)',
+          name: 'Digital Learner 2 (ID: 20462)',
           results: [
             {
               competence_id: 'comp-text-comprehension',
@@ -1208,7 +1485,7 @@ export const sampleDataSetEN: DemoDataSet = {
           name: 'Spring 2024 Assessment',
           start_date: '2024-03-01',
           end_date: '2024-03-15',
-          course_ids: ['course-math-10a', 'course-math-10b', 'course-english-10a']
+          course_ids: ['1-course-math-8a', '1-course-math-8b', 'course-english-10a']
         }
       ]
     },
@@ -1221,14 +1498,14 @@ export const sampleDataSetEN: DemoDataSet = {
           name: 'Spring 2024 Assessment',
           start_date: '2024-03-01',
           end_date: '2024-03-15',
-          course_ids: ['course-math-9a', 'course-english-9a']
+          course_ids: ['2-course-math-8a', 'course-english-9a']
         }
       ]
     }
   ],
   courses: [
     {
-      id: 'course-math-10a',
+      id: '1-course-math-8a',
       name: 'Mathematics 10a',
       school_id: 'school-1',
       competences: [
@@ -1322,7 +1599,7 @@ export const sampleDataSetEN: DemoDataSet = {
       students: [
         {
           id: 'student-1',
-          name: 'Anna M.',
+          name: 'Sarah M.',
           results: [
             {
               competence_id: 'comp-algebra',
