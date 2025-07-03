@@ -1068,7 +1068,7 @@ export const kompetenztestDataSet: DemoDataSet = {
           description: 'Funktionsgleichungen aus gegebenen Bedingungen bestimmen'
         }
       ],
-      students: parseKompetenztestExcel('/Users/janrenz/code/tba3-demo-api/data/Kompetenztest/mathe8.xlsx', 'math')
+      students: parseKompetenztestExcel('data/Kompetenztest/mathe8.xlsx', 'math')
     },
     {
       id: 'course-german-8',
@@ -1105,7 +1105,7 @@ export const kompetenztestDataSet: DemoDataSet = {
           description: 'Interpretieren von Texten und sprachlichen Mitteln'
         }
       ],
-      students: parseKompetenztestExcel('/Users/janrenz/code/tba3-demo-api/data/Kompetenztest/deutsch3lesen.xlsx', 'german')
+      students: parseKompetenztestExcel('data/Kompetenztest/deutsch3lesen.xlsx', 'german')
     }
   ]
 };
