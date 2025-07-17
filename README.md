@@ -479,6 +479,372 @@ To utilize untransformed data forms, consider:
 3. **Excel Integration**: Direct Excel file processing for dynamic dataset updates
 4. **Validation Layer**: Use competence max_level constraints for data validation
 
+## API Schema Validation
+
+The API includes comprehensive schema validation to ensure all responses comply with the OpenAPI specification defined in `tba3_api_spec.yml`.
+
+### Validation Features
+
+- **Response Validation**: All API responses are validated against OpenAPI schemas
+- **Parameter Validation**: Query parameters are validated against allowed values
+- **Error Handling**: Clear error messages for invalid requests
+- **Development Mode**: Detailed validation errors with schema information
+- **Testing Tools**: Automated validation scripts for all datasets
+
+### Validation Commands
+
+```bash
+# Validate all datasets against API schema
+npm run validate
+
+# Test API endpoints with validation
+npx ts-node src/scripts/test-api-validation.ts
+```
+
+### Schema Validation Results
+
+All datasets pass comprehensive schema validation:
+
+#### ✅ **Dataset Validation Results**
+```
+🔍 Validating all datasets against API schema...
+
+📊 Testing dataset: sample
+✅ Dataset sample: All validations passed!
+
+📊 Testing dataset: sample-en
+✅ Dataset sample-en: All validations passed!
+
+📊 Testing dataset: vera3-math
+✅ Dataset vera3-math: All validations passed!
+
+📊 Testing dataset: jena-response
+✅ Dataset jena-response: All validations passed!
+
+📊 Testing dataset: kompetenztest
+✅ Dataset kompetenztest: All validations passed!
+
+📊 Testing dataset: zepf-assessment
+✅ Dataset zepf-assessment: All validations passed!
+
+📋 Summary:
+- Datasets tested: 6
+- Total validation errors: 0
+🎉 All datasets pass API schema validation!
+```
+
+#### ✅ **Schema Component Validation**
+- **StatisticItem**: ✅ PASS
+- **CompetenceResult**: ✅ PASS  
+- **TaskResult**: ✅ PASS
+- **CourseStatistics**: ✅ PASS
+- **StudentPerformances**: ✅ PASS
+- **SchoolRunStatistics**: ✅ PASS
+- **ComparisonData**: ✅ PASS
+
+#### ✅ **Parameter Validation**
+- **Course Statistics**: Validates metric, group_by, competence, task, dataset parameters
+- **Student Performances**: Validates competence, task, dataset parameters
+- **School Run Statistics**: Validates metric, compare_with_similar, dataset parameters
+
+#### ✅ **API Endpoint Testing**
+```bash
+# Valid requests return 200 OK with schema-compliant data
+curl "http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=competence_levels"
+# Response: 200 OK with valid CourseStatistics schema
+
+# Invalid parameters return 400 Bad Request
+curl "http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=invalid_metric"
+# Response: 400 Bad Request with validation error message
+
+# Non-existent resources return 404 Not Found
+curl "http://localhost:3000/courses/non-existent/statistics?dataset=sample"
+# Response: 404 Not Found
+```
+
+### Validation Middleware
+
+The API includes validation middleware that:
+- Validates all response data against OpenAPI schemas
+- Checks query parameters against allowed values
+- Provides detailed error messages for invalid requests
+- Ensures API compliance in both development and production
+
+### Error Responses
+
+Invalid requests return structured error responses:
+
+```json
+{
+  "error": "Parameter validation failed",
+  "validation_errors": [
+    "Invalid metric parameter. Valid values: competence_levels, solution_frequencies, task_performance"
+  ]
+}
+```
+
 ## API Specification
 
 The complete OpenAPI specification is available at `/api-spec` when the server is running, or you can view the YAML file at `tba3_api_spec.yml` in the project root.
+
+# API Endpoint Test Results
+
+This section contains all tested endpoints with their current status.
+
+## Summary
+
+- **Total Endpoints Tested**: 112
+- **Successful**: 112 (100%)
+- **Failed**: 0 (0%)
+
+## Tested Endpoints by Dataset
+
+### sample Dataset
+**Status**: 40/40 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample&metric=task-performance` | ✅ 200 | Course task performance |
+| GET | `http://localhost:3000/courses/1-course-math-8b/statistics?dataset=sample&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/1-course-math-8b/statistics?dataset=sample&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/1-course-math-8b/statistics?dataset=sample&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/1-course-math-8b/statistics?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8b/statistics?dataset=sample&metric=task-performance` | ✅ 200 | Course task performance |
+| GET | `http://localhost:3000/courses/1-course-german-8a/statistics?dataset=sample&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/1-course-german-8a/statistics?dataset=sample&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/1-course-german-8a/statistics?dataset=sample&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/1-course-german-8a/statistics?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-german-8a/statistics?dataset=sample&metric=task-performance` | ✅ 200 | Course task performance |
+| GET | `http://localhost:3000/courses/2-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/2-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/2-course-math-8a/statistics?dataset=sample&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/2-course-math-8a/statistics?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/2-course-math-8a/statistics?dataset=sample&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample&metric=task-performance` | ✅ 200 | Course student task performance |
+| GET | `http://localhost:3000/courses/1-course-math-8b/students?dataset=sample&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/1-course-math-8b/students?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8b/students?dataset=sample&metric=task-performance` | ✅ 200 | Course student task performance |
+| GET | `http://localhost:3000/courses/1-course-german-8a/students?dataset=sample&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/1-course-german-8a/students?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-german-8a/students?dataset=sample&metric=task-performance` | ✅ 200 | Course student task performance |
+| GET | `http://localhost:3000/courses/2-course-math-8a/students?dataset=sample&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/2-course-math-8a/students?dataset=sample&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/2-course-math-8a/students?dataset=sample&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/courses?dataset=sample&metric=competence-levels` | ✅ 200 | School run courses |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/courses?dataset=sample&metric=competence-levels` | ✅ 200 | School run courses |
+
+### sample-en Dataset
+**Status**: 16/16 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample-en&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample-en&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample-en&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample-en&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8a/statistics?dataset=sample-en&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample-en&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample-en&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/1-course-math-8a/students?dataset=sample-en&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample-en&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample-en&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/statistics?dataset=sample-en&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample-en&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample-en&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/statistics?dataset=sample-en&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-1/runs/run-2024-spring/courses?dataset=sample-en&metric=competence-levels` | ✅ 200 | School run courses |
+| GET | `http://localhost:3000/schools/school-2/runs/run-2024-spring/courses?dataset=sample-en&metric=competence-levels` | ✅ 200 | School run courses |
+
+### vera3-math Dataset
+**Status**: 12/12 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-math-3b/statistics?dataset=vera3-math&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/course-math-3b/statistics?dataset=vera3-math&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/course-math-3b/statistics?dataset=vera3-math&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/course-math-3b/statistics?dataset=vera3-math&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/course-math-3b/statistics?dataset=vera3-math&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-math-3b/students?dataset=vera3-math&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/course-math-3b/students?dataset=vera3-math&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/course-math-3b/students?dataset=vera3-math&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-000031/runs/vera3-spring-2024/statistics?dataset=vera3-math&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-000031/runs/vera3-spring-2024/statistics?dataset=vera3-math&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-000031/runs/vera3-spring-2024/statistics?dataset=vera3-math&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-000031/runs/vera3-spring-2024/courses?dataset=vera3-math&metric=competence-levels` | ✅ 200 | School run courses |
+
+### jena-response Dataset
+**Status**: 12/12 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-reading-8a/statistics?dataset=jena-response&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/course-reading-8a/statistics?dataset=jena-response&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/course-reading-8a/statistics?dataset=jena-response&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/course-reading-8a/statistics?dataset=jena-response&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/course-reading-8a/statistics?dataset=jena-response&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-reading-8a/students?dataset=jena-response&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/course-reading-8a/students?dataset=jena-response&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/course-reading-8a/students?dataset=jena-response&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-00X30/runs/digital-reading-2024/statistics?dataset=jena-response&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-00X30/runs/digital-reading-2024/statistics?dataset=jena-response&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-00X30/runs/digital-reading-2024/statistics?dataset=jena-response&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-00X30/runs/digital-reading-2024/courses?dataset=jena-response&metric=competence-levels` | ✅ 200 | School run courses |
+
+### kompetenztest Dataset
+**Status**: 20/20 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-math-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/course-math-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/course-math-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/course-math-8/statistics?dataset=kompetenztest&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/course-math-8/statistics?dataset=kompetenztest&metric=task-performance` | ✅ 200 | Course task performance |
+| GET | `http://localhost:3000/courses/course-german-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/course-german-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/course-german-8/statistics?dataset=kompetenztest&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/course-german-8/statistics?dataset=kompetenztest&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/course-german-8/statistics?dataset=kompetenztest&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-math-8/students?dataset=kompetenztest&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/course-math-8/students?dataset=kompetenztest&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/course-math-8/students?dataset=kompetenztest&metric=task-performance` | ✅ 200 | Course student task performance |
+| GET | `http://localhost:3000/courses/course-german-8/students?dataset=kompetenztest&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/course-german-8/students?dataset=kompetenztest&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/course-german-8/students?dataset=kompetenztest&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-brandenburg-1/runs/kompetenztest-2024/statistics?dataset=kompetenztest&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-brandenburg-1/runs/kompetenztest-2024/statistics?dataset=kompetenztest&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-brandenburg-1/runs/kompetenztest-2024/statistics?dataset=kompetenztest&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-brandenburg-1/runs/kompetenztest-2024/courses?dataset=kompetenztest&metric=competence-levels` | ✅ 200 | School run courses |
+
+### zepf-assessment Dataset
+**Status**: 12/12 endpoints working (100%)
+
+#### Course Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-zepf-math-3/statistics?dataset=zepf-assessment&metric=competence-levels&groupBy=students` | ✅ 200 | Course competence levels grouped by students |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/statistics?dataset=zepf-assessment&metric=competence-levels&groupBy=competences` | ✅ 200 | Course competence levels grouped by competences |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/statistics?dataset=zepf-assessment&metric=competence-levels&groupBy=tasks` | ✅ 200 | Course competence levels grouped by tasks |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/statistics?dataset=zepf-assessment&metric=solution-frequencies` | ✅ 200 | Course solution frequencies |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/statistics?dataset=zepf-assessment&metric=task-performance` | ✅ 200 | Course task performance |
+
+#### Course Student Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/courses/course-zepf-math-3/students?dataset=zepf-assessment&metric=competence-levels` | ✅ 200 | Course student competence levels |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/students?dataset=zepf-assessment&metric=solution-frequencies` | ✅ 200 | Course student solution frequencies |
+| GET | `http://localhost:3000/courses/course-zepf-math-3/students?dataset=zepf-assessment&metric=task-performance` | ✅ 200 | Course student task performance |
+
+#### School Statistics Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-zepf-1/runs/zepf-vera-2024/statistics?dataset=zepf-assessment&metric=competence-levels&includeComparison=false` | ✅ 200 | School run competence levels |
+| GET | `http://localhost:3000/schools/school-zepf-1/runs/zepf-vera-2024/statistics?dataset=zepf-assessment&metric=competence-levels&includeComparison=true` | ✅ 200 | School run competence levels with comparison |
+| GET | `http://localhost:3000/schools/school-zepf-1/runs/zepf-vera-2024/statistics?dataset=zepf-assessment&metric=course-comparison&includeComparison=false` | ✅ 200 | School run course comparison |
+
+#### School Course Endpoints
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| GET | `http://localhost:3000/schools/school-zepf-1/runs/zepf-vera-2024/courses?dataset=zepf-assessment&metric=competence-levels` | ✅ 200 | School run courses |

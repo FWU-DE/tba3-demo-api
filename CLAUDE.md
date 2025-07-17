@@ -75,3 +75,6 @@ The application includes comprehensive error handling:
 ### Data Structure
 
 Demo datasets follow a consistent schema with schools, runs, courses, competences, tasks, and student results. The transformer converts this into the TBA3 format with statistics aggregation and comparison capabilities.
+
+### Schema and Configuration
+- The schema is defined in the yml file

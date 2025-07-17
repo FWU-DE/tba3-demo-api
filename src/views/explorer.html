@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBA3 API Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .search-box {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .dataset-group {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dataset-header {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.2s;
+        }
+
+        .dataset-header:hover {
+            background: #f1f5f9;
+        }
+
+        .dataset-header.active {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .toggle-icon {
+            transition: transform 0.2s;
+        }
+
+        .dataset-header.active .toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .category-group {
+            display: none;
+        }
+
+        .dataset-header.active + .category-group {
+            display: block;
+        }
+
+        .category-header {
+            background: #f1f5f9;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .endpoint-item {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .endpoint-item:hover {
+            background: #f8fafc;
+        }
+
+        .endpoint-item.active {
+            background: #e0e7ff;
+            border-left: 3px solid #667eea;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .endpoint-path {
+            font-size: 0.8rem;
+            color: #374151;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            margin: 0.25rem 0;
+        }
+
+        .endpoint-description {
+            font-size: 0.75rem;
+            color: #6b7280;
+            line-height: 1.3;
+        }
+
+        .content {
+            flex: 1;
+            background: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            padding: 1.5rem 2rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: white;
+        }
+
+        .content-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-url {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.875rem;
+            color: #6b7280;
+            background: #f9fafb;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .response-container {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            overflow-y: auto;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .json-container {
+            background: #1f2937;
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+
+        .json-key {
+            color: #60a5fa;
+        }
+
+        .json-string {
+            color: #34d399;
+        }
+
+        .json-number {
+            color: #fbbf24;
+        }
+
+        .json-boolean {
+            color: #f87171;
+        }
+
+        .json-null {
+            color: #9ca3af;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6b7280;
+        }
+
+        .welcome-message h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .status-200 {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .dataset-count {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .endpoint-tags {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.125rem 0.375rem;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tag-class {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .tag-metric {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tag-route {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .search-results {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            color: #6b7280;
+            background: #fef3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 TBA3 API Explorer</h1>
+        <p>Interactive explorer for all API endpoints across 6 datasets with live JSON responses</p>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Search endpoints..." id="searchInput">
+            </div>
+            <div id="searchResults" class="search-results" style="display: none;"></div>
+            <div id="endpointsList"></div>
+        </div>
+
+        <div class="content">
+            <div class="content-header" id="contentHeader" style="display: none;">
+                <div class="content-title" id="contentTitle"></div>
+                <div class="content-url" id="contentUrl"></div>
+            </div>
+            
+            <div class="response-container" id="responseContainer">
+                <div class="welcome-message">
+                    <h2>Welcome to the TBA3 API Explorer</h2>
+                    <p>Select an endpoint from the left sidebar to see its live JSON response.</p>
+                    <p>🔍 Use the search box to quickly find specific endpoints</p>
+                    <p>📊 Explore all 112 working endpoints across 6 datasets</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const endpoints = {{ENDPOINTS_DATA}};
+        let filteredEndpoints = endpoints;
+        let activeEndpoint = null;
+
+        function groupEndpointsByDataset(endpoints) {
+            const groups = {};
+            endpoints.forEach(endpoint => {
+                if (!groups[endpoint.dataset]) {
+                    groups[endpoint.dataset] = {};
+                }
+                if (!groups[endpoint.dataset][endpoint.category]) {
+                    groups[endpoint.dataset][endpoint.category] = [];
+                }
+                groups[endpoint.dataset][endpoint.category].push(endpoint);
+            });
+            return groups;
+        }
+
+        function renderEndpointsList(endpointsToRender = filteredEndpoints) {
+            const groups = groupEndpointsByDataset(endpointsToRender);
+            const container = document.getElementById('endpointsList');
+            
+            container.innerHTML = Object.keys(groups).map(dataset => {
+                const categories = groups[dataset];
+                const totalEndpoints = Object.values(categories).flat().length;
+                
+                return `
+                    <div class="dataset-group">
+                        <div class="dataset-header" onclick="toggleDataset('${dataset}', event)">
+                            <span>
+                                📊 ${dataset}
+                                <span class="dataset-count">${totalEndpoints}</span>
+                            </span>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="category-group">
+                            ${Object.keys(categories).map(category => `
+                                <div class="category-header">${category}</div>
+                                ${categories[category].map((endpoint, index) => {
+                                    const endpointId = `${dataset}-${category}-${index}`;
+                                    const path = endpoint.path.replace('http://localhost:3000', '');
+                                    return `
+                                        <div class="endpoint-item" onclick="selectEndpoint('${endpointId}', '${endpoint.url.replace(/'/g, '\\\'')}')" id="${endpointId}">
+                                            <div>
+                                                <span class="endpoint-method">${endpoint.method}</span>
+                                                <span class="status-badge status-200">200</span>
+                                            </div>
+                                            <div class="endpoint-path">${path}</div>
+                                            <div class="endpoint-description">${endpoint.description}</div>
+                                            <div class="endpoint-tags">
+                                                <span class="tag tag-class">${endpoint.class}</span>
+                                                ${endpoint.metric !== 'none' ? `<span class="tag tag-metric">${endpoint.metric}</span>` : ''}
+                                                <span class="tag tag-route">${endpoint.routeType}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleDataset(dataset, event) {
+            const header = event.target.closest('.dataset-header');
+            header.classList.toggle('active');
+        }
+
+        async function selectEndpoint(endpointId, url) {
+            // Update active state
+            if (activeEndpoint) {
+                document.getElementById(activeEndpoint).classList.remove('active');
+            }
+            activeEndpoint = endpointId;
+            document.getElementById(endpointId).classList.add('active');
+
+            // Show content header
+            const contentHeader = document.getElementById('contentHeader');
+            const contentTitle = document.getElementById('contentTitle');
+            const contentUrl = document.getElementById('contentUrl');
+            const responseContainer = document.getElementById('responseContainer');
+
+            contentHeader.style.display = 'block';
+            
+            // Extract endpoint info
+            const endpoint = endpoints.find(e => e.url === url);
+            contentTitle.textContent = endpoint.description;
+            contentUrl.textContent = url;
+
+            // Show loading
+            responseContainer.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Fetching data...
+                </div>
+            `;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                responseContainer.innerHTML = `
+                    <div class="json-container">
+                        <pre>${syntaxHighlight(JSON.stringify(data, null, 2))}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                responseContainer.innerHTML = `
+                    <div class="error-message">
+                        <strong>Error fetching data:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                if (query === '') {
+                    filteredEndpoints = endpoints;
+                    searchResults.style.display = 'none';
+                } else {
+                    filteredEndpoints = endpoints.filter(endpoint => 
+                        endpoint.description.toLowerCase().includes(query) ||
+                        endpoint.path.toLowerCase().includes(query) ||
+                        endpoint.dataset.toLowerCase().includes(query) ||
+                        endpoint.category.toLowerCase().includes(query) ||
+                        endpoint.class.toLowerCase().includes(query) ||
+                        endpoint.metric.toLowerCase().includes(query) ||
+                        endpoint.routeType.toLowerCase().includes(query)
+                    );
+                    
+                    searchResults.style.display = 'block';
+                    searchResults.textContent = `Found ${filteredEndpoints.length} matching endpoints`;
+                }
+                
+                renderEndpointsList();
+            });
+        }
+
+        // Initialize
+        renderEndpointsList();
+        setupSearch();
+    </script>
+</body>
+</html>

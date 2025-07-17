@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBA3 Demo API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .feature-description {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-stats {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        .datasets-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .datasets-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #1f2937;
+        }
+
+        .datasets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .dataset-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .dataset-item:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .dataset-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .dataset-description {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .api-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 TBA3 Demo API</h1>
+            <p>Educational Assessment Data in TBA3 Format - Explore comprehensive datasets and interactive tools for educational analysis</p>
+            <div class="api-badge">REST API</div>
+            <div class="version-badge">v1.0.0</div>
+        </div>
+
+        <div class="features-grid">
+            <a href="/explore" class="feature-card">
+                <span class="feature-icon">🚀</span>
+                <h3 class="feature-title">API Explorer</h3>
+                <p class="feature-description">Interactive explorer with live JSON responses. Test all endpoints across 6 datasets with real-time data visualization.</p>
+                <div class="feature-stats">112 Working Endpoints</div>
+            </a>
+
+            <a href="/api-docs" class="feature-card">
+                <span class="feature-icon">📚</span>
+                <h3 class="feature-title">API Documentation</h3>
+                <p class="feature-description">Complete Swagger/OpenAPI documentation with detailed schemas, examples, and interactive testing capabilities.</p>
+                <div class="feature-stats">OpenAPI 3.0 Specification</div>
+            </a>
+
+            <a href="/datasets" class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Datasets Overview</h3>
+                <p class="feature-description">Browse all available educational datasets with metadata, statistics, and direct API access links.</p>
+                <div class="feature-stats">6 Educational Datasets</div>
+            </a>
+
+            <a href="/health" class="feature-card">
+                <span class="feature-icon">💚</span>
+                <h3 class="feature-title">System Status</h3>
+                <p class="feature-description">Check API health, uptime, and system information. Monitor service availability and performance metrics.</p>
+                <div class="feature-stats">Real-time Monitoring</div>
+            </a>
+        </div>
+
+        <div class="datasets-section">
+            <h2 class="datasets-title">Available Educational Datasets</h2>
+            <div class="datasets-grid">
+                <div class="dataset-item">
+                    <div class="dataset-name">📝 Sample</div>
+                    <div class="dataset-description">Basic demonstration data for testing and development</div>
+                </div>
+                <div class="dataset-item">
+                    <div class="dataset-name">🔢 VERA-3 Math</div>
+                    <div class="dataset-description">VERA-3 Mathematics assessments for Grade 3 students</div>
+                </div>
+                <div class="dataset-item">
+                    <div class="dataset-name">📖 Jena Digital Reading</div>
+                    <div class="dataset-description">Digital reading comprehension assessments</div>
+                </div>
+                <div class="dataset-item">
+                    <div class="dataset-name">🎯 Kompetenztest</div>
+                    <div class="dataset-description">Brandenburg state competency test results</div>
+                </div>
+                <div class="dataset-item">
+                    <div class="dataset-name">🔬 ZEPF Assessment</div>
+                    <div class="dataset-description">ZEPF educational assessment data</div>
+                </div>
+                <div class="dataset-item">
+                    <div class="dataset-name">📈 Sample Advanced</div>
+                    <div class="dataset-description">Extended sample data with advanced metrics</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Built with TypeScript, Express.js, and educational data standards</p>
+            <p>TBA3 API Specification | <a href="https://github.com/your-repo">View on GitHub</a></p>
+        </div>
+    </div>
+</body>
+</html>

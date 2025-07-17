@@ -7,10 +7,16 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const yamljs_1 = __importDefault(require("yamljs"));
+const path_1 = __importDefault(require("path"));
 const courses_1 = __importDefault(require("./routes/courses"));
 const schools_1 = __importDefault(require("./routes/schools"));
 const datasets_1 = __importDefault(require("./routes/datasets"));
+const explorer_1 = __importDefault(require("./routes/explorer"));
 const app = (0, express_1.default)();
+// Load OpenAPI spec for Swagger UI
+const swaggerDocument = yamljs_1.default.load(path_1.default.join(__dirname, '../tba3_api_spec.yml'));
 // Security middleware
 app.use((0, helmet_1.default)());
 // CORS middleware
@@ -23,6 +29,8 @@ app.use((0, morgan_1.default)('combined'));
 // Body parsing middleware
 app.use(express_1.default.json({ limit: '10mb' }));
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
+// Swagger UI
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 // Health check endpoint
 app.get('/health', (req, res) => {
     res.json({
@@ -44,7 +52,9 @@ app.get('/', (req, res) => {
             school_run_statistics: '/schools/{schoolId}/runs/{runId}/statistics'
         },
         documentation: {
+            swagger_ui: '/api-docs',
             openapi_spec: '/api-spec',
+            api_explorer: '/explore',
             query_parameters: {
                 dataset: 'Specify which dataset to use (default: sample)',
                 metric: 'Type of metric to retrieve',
@@ -74,6 +84,7 @@ app.get('/api-spec', (req, res) => {
 app.use('/datasets', datasets_1.default);
 app.use('/courses', courses_1.default);
 app.use('/schools', schools_1.default);
+app.use('/explore', explorer_1.default);
 // 404 handler
 app.use('*', (req, res) => {
     res.status(404).json({
@@ -82,7 +93,9 @@ app.use('*', (req, res) => {
         available_endpoints: [
             'GET /',
             'GET /health',
+            'GET /api-docs',
             'GET /api-spec',
+            'GET /explore',
             'GET /datasets',
             'GET /datasets/{datasetId}',
             'GET /courses/{courseId}/statistics',
